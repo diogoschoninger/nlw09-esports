@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
-import { FlatList, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  useEffect,
+  useState }             from 'react';
+import {
+  FlatList,
+  Image }                from 'react-native';
+import {
+  GameCard,
+  GameCardProps }        from '../../components/GameCard';
+import { SafeAreaView }  from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-
-import logoImg      from '../../assets/logo-nlw-esports.png';
-import { Background } from '../../components/Background';
-import { GameCard, GameCardProps } from '../../components/GameCard';
-import { Heading }  from '../../components/Heading';
-import { styles }   from './styles';
+import logoImg           from '../../assets/logo-nlw-esports.png';
+import { Background }    from '../../components/Background';
+import { Heading }       from '../../components/Heading';
+import { styles }        from './styles';
+import axios             from 'axios';
 
 export function Home() {
   const [games, setGames] = useState<GameCardProps[]>([]);
@@ -19,9 +25,8 @@ export function Home() {
   }
 
   useEffect(() => {
-    fetch('http://192.168.0.110:3333/games')
-      .then(response => response.json())
-      .then(data => setGames(data));
+    axios('http://192.168.0.111:3333/games')
+      .then(response => setGames(response.data));
   }, []);
 
   return (
@@ -50,7 +55,6 @@ export function Home() {
           horizontal
           contentContainerStyle={styles.contentList}
         />
-
       </SafeAreaView>
     </Background>
   );
